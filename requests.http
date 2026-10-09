@@ -1,0 +1,166 @@
+### ========================================
+### RECURSO: PRODUCTOS
+### ========================================
+
+### Listar todos los productos (Éxito)
+GET http://localhost:8080/api/productos
+
+### Obtener producto existente (Éxito)
+GET http://localhost:8080/api/productos/1
+
+### Obtener producto inexistente (Error 404)
+GET http://localhost:8080/api/productos/999999
+
+
+### ========================================
+### RECURSO: FAVORITOS
+### ========================================
+
+### Crear favorito (Éxito - 201)
+POST http://localhost:8080/api/favoritos
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "nota": "Me encanta este producto",
+  "listaId": 1
+}
+
+### Crear favorito - Error de validación (Error 400 - falta productoId)
+POST http://localhost:8080/api/favoritos
+Content-Type: application/json
+
+{
+  "nota": "Producto sin ID",
+  "listaId": 1
+}
+
+### Crear favorito - Error de validación (Error 400 - nota vacía)
+POST http://localhost:8080/api/favoritos
+Content-Type: application/json
+
+{
+  "productoId": 2,
+  "nota": "",
+  "listaId": 1
+}
+
+### Listar favoritos (Éxito - 200)
+GET http://localhost:8080/api/favoritos
+
+### Obtener favorito existente (Éxito - 200)
+# (Asume que el favorito creado antes tiene id 1)
+GET http://localhost:8080/api/favoritos/1
+
+### Obtener favorito inexistente (Error 404)
+GET http://localhost:8080/api/favoritos/999
+
+### Actualizar favorito (Éxito - 200)
+PUT http://localhost:8080/api/favoritos/1
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "nota": "Nota actualizada!",
+  "listaId": 1
+}
+
+### Actualizar favorito inexistente (Error 404)
+PUT http://localhost:8080/api/favoritos/999
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "nota": "Esta actualización fallará",
+  "listaId": 1
+}
+
+### Eliminar favorito (Éxito - 204)
+DELETE http://localhost:8080/api/favoritos/1
+
+### Eliminar favorito inexistente (Error 404)
+DELETE http://localhost:8080/api/favoritos/999
+
+### Crear favorito con lista inexistente (Error 404)
+POST http://localhost:8080/api/favoritos
+Content-Type: application/json
+
+{
+  "productoId": 1,
+  "nota": "Fallo de lista",
+  "listaId": 999
+}
+
+
+### ========================================
+### RECURSO: LISTAS
+### ========================================
+
+### Crear lista (Éxito - 201)
+POST http://localhost:8080/api/listas
+Content-Type: application/json
+
+{
+  "nombre": "Mi Lista de Deseos"
+}
+
+### Crear lista con nombre vacío (Error 400)
+POST http://localhost:8080/api/listas
+Content-Type: application/json
+
+{
+  "nombre": ""
+}
+
+### Listar todas las listas (Éxito - 200)
+GET http://localhost:8080/api/listas
+
+### Obtener lista existente (Éxito - 200)
+GET http://localhost:8080/api/listas/1
+
+### Obtener lista inexistente (Error 404)
+GET http://localhost:8080/api/listas/999
+
+### Obtener favoritos de una lista (Éxito - 200)
+GET http://localhost:8080/api/listas/1/favoritos
+
+### Eliminar lista vacía (Éxito - 204)
+# (Cambiar el ID por uno válido sin favoritos)
+DELETE http://localhost:8080/api/listas/2
+
+### Eliminar lista con favoritos (Error 409 Conflict)
+# (Asumiendo que la lista 1 tiene favoritos)
+DELETE http://localhost:8080/api/listas/1
+
+### Mover favoritos entre listas (Éxito - 204)
+# (Mueve los de la lista 2 a la 1 y borra la 2)
+POST http://localhost:8080/api/listas/2/mover-favoritos
+Content-Type: application/json
+
+{
+  "listaDestinoId": 1
+}
+
+### Mover favoritos - Origen inexistente (Error 404)
+POST http://localhost:8080/api/listas/999/mover-favoritos
+Content-Type: application/json
+
+{
+  "listaDestinoId": 1
+}
+
+### Mover favoritos - Destino inexistente (Error 404)
+POST http://localhost:8080/api/listas/1/mover-favoritos
+Content-Type: application/json
+
+{
+  "listaDestinoId": 999
+}
+
+### Mover favoritos a la misma lista (Error 400)
+POST http://localhost:8080/api/listas/1/mover-favoritos
+Content-Type: application/json
+
+{
+  "listaDestinoId": 1
+}

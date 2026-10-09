@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: tp2-postgres
+    environment:
+      POSTGRES_DB: tp2db
+      POSTGRES_USER: tp2user
+      POSTGRES_PASSWORD: tp2pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
