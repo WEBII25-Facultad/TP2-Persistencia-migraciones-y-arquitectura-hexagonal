@@ -1,5 +1,6 @@
-# TP1 · Spring Boot — API REST y arquitectura en capas
+# TP2 · Persistencia, migraciones y arquitectura hexagonal
 
+Evolución del proyecto del TP1 (API REST en capas): ahora con PostgreSQL, JPA/Hibernate, Flyway, listas de favoritos y transacciones.
 API REST con arquitectura en capas (Controller → Service → Repository) que expone:
 - **Catálogo de productos** (`/api/productos`, solo lectura) — consume la API externa DummyJSON y expone su propio contrato.
 - **Favoritos** (`/api/favoritos`, CRUD completo) — persistido en PostgreSQL con JPA y Flyway.
